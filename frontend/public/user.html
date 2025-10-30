@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="user_title"></title>
+  <link rel="stylesheet" href="../src/css/user.css">
+</head>
+
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <h2 id="user_logo"></h2>
+    <button class="logout-btn" id="user_logout" onclick="logout()"></button>
+  </nav>
+
+  <div class="container">
+    <!-- User welcome section -->
+    <div class="welcome-card">
+      <!--! Actual user name goes here (Check /lang/en/user-lang.js and /src/js/ui-message.js)-->
+      <h1 id="user_welcome_message"><span id="username"></span></h1>
+      <p id="user_welcome_subtitle"></p>
+    </div>
+
+    <!-- General statistics ection -->
+    <div class="stats-grid">
+      <!-- Remaining API Calls card-->
+      <div class="stat-card">
+        <div class="stat-label" id="user_remaining_api_calls_label"></div>
+        <div class="stat-value" id="apiCalls">1,000</div>
+      </div>
+      <!-- Total API calls requests-->
+      <div class="stat-card">
+        <div class="stat-label" id="user_total_requests_label"></div>
+        <div class="stat-value" id="totalRequests">0</div>
+      </div>
+    </div>
+    
+    <!-- AI access & User ai response collection section -->
+    <div class="action-card">
+      <!-- AI service access -->
+      <div>
+        <h2 id="user_ai_service_access"></h2>
+        <p id="user_ai_service_description"></p>
+        <button class="action-btn" id="user_ai_button" onclick="goToAIService()"></button>
+      </div>
+
+      <!-- User collection -->
+      <div class="user-collection">
+        <h2 id="user_collection"></h2>
+        <p id="user_collection_description"></p>
+        <button class="action-btn" id="user_collection_button" onclick="goToMyCollection()"></button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- JavaScript files -->
+  <script src="../lang/en/user-lang.js"></script>
+  <script src="../src/js/ui-message.js"></script>
+  <script src="../src/js/user.js"></script>
+</body>
+
+</html>

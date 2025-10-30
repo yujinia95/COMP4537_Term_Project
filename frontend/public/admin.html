@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="admin-title"></title>
+  <link rel="stylesheet" href="../src/css/admin.css">
+</head>
+
+<body>
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <h2 id="admin-logo"></h2>
+    <button class="logout-btn" id="admin-logout" onclick="logout()"></button>
+  </nav>
+
+
+  <div class="container">
+
+    <!-- Header Section -->
+    <div class="header-card">
+      <h1 id="admin-header"></h1>
+      <p id="admin-purpose"></p>
+    </div>
+
+    <!-- General Statistics Section -->
+    <div class="stats-grid">
+      <!-- Total Users card-->
+      <div class="stat-card">
+        <div class="stat-label" id="admin-total-users"></div>
+        <div class="stat-value" id="totalUsers"></div>
+      </div>
+      <!-- Total API Calls card-->
+      <div class="stat-card">
+        <div class="stat-label" id="admin-total-api-calls"></div>
+        <div class="stat-value" id="totalCalls"></div>
+      </div>
+    </div>
+
+    <!-- User Statistics Table Section -->
+    <div class="users-card">
+      <h2 id="admin-user-statistics"></h2>
+      <!-- User statistics table -->
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th id="admin-user-username"></th>
+            <th id="admin-user-email"></th>
+            <th id="admin-user-api-calls-used"></th>
+            <th id="admin-user-remaining"></th>
+          </tr>
+        </thead>
+        <!-- User info rows -->
+        <tbody id="usersTableBody">
+          <!--! Users will be populated here -->
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+  
+  <!-- JavaScript files -->
+  <script src="../lang/en/admin-lang.js"></script>
+  <script src="../src/js/ui-message.js"></script>
+  <script src="../src/js/admin.js"></script>
+</body>
+
+</html>

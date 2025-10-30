@@ -1,0 +1,193 @@
+/*
+  @file ai.css
+  @author Yujin Jeong, Evan Vink, Brian Diep
+  @version 1.0
+  @description Stylesheet for the AI page
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: white;
+    padding: 20px 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h2 {
+    color: #ff9a8b;
+}
+
+/* Back button */
+.back-btn {
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #ff9a8b 0%, #fcb69f 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.back-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+/* Layout */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Service card */
+.service-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.service-card p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Input section */
+.input-section {
+    margin-bottom: 20px;
+}
+
+.input-section label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+    font-weight: 600;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ffecd2;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #ff9a8b;
+    box-shadow: 0 0 0 3px rgba(255, 154, 139, 0.15);
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.submit-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #ff9a8b 0%, #fcb69f 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.clear-btn {
+    padding: 12px 30px;
+    background: #ffecd2;
+    color: #666;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.clear-btn:hover {
+    background: #ffe2c0;
+}
+
+/* Output */
+.output-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid #f4e1d2;
+}
+
+.output-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.output-box {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    min-height: 150px;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 1px solid #ffecd2;
+}
+
+.output-box.empty {
+    color: #999;
+    font-style: italic;
+}
+
+/* Loading spinner */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 154, 139, 0.3);
+    border-radius: 50%;
+    border-top-color: #ff9a8b;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

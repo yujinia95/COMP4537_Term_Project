@@ -1,0 +1,176 @@
+/**
+ * @file ui-message.js
+ * @author Yujin Jeong, Evan Vink, Brian Diep
+ * @version 1.0
+ * @description This file contains the UIMessage class that manages messages for the user interface (used in HTML files).
+ */
+
+class UIMessage {
+
+  /**
+   * Constructor for UIMessage class.
+   */
+  constructor() {
+    window.addEventListener("DOMContentLoaded", () => this.init());
+  }
+
+  /**
+   * Initialize DOM elements.
+   */
+  init() {
+    // Admin page
+    this.admin_title               = document.getElementById("admin-title");
+    this.admin_logo                = document.getElementById("admin-logo");
+    this.admin_logout              = document.getElementById("admin-logout");
+    this.admin_header              = document.getElementById("admin-header");
+    this.admin_purpose             = document.getElementById("admin-purpose");
+    this.admin_total_users         = document.getElementById("admin-total-users");
+    this.admin_total_api_calls     = document.getElementById("admin-total-api-calls");
+    this.admin_user_statistics     = document.getElementById("admin-user-statistics");
+    this.admin_user_username       = document.getElementById("admin-user-username");
+    this.admin_user_email          = document.getElementById("admin-user-email");
+    this.admin_user_api_calls_used = document.getElementById("admin-user-api-calls-used");
+    this.admin_user_remaining      = document.getElementById("admin-user-remaining");
+
+    // AI page
+    this.ai_title                = document.getElementById("ai_title");
+    this.ai_logo                 = document.getElementById("ai_logo");
+    this.ai_back_button          = document.getElementById("ai_back_button");
+    this.ai_header               = document.getElementById("ai_header");
+    this.ai_description          = document.getElementById("ai_description");
+    this.ai_input_label          = document.getElementById("ai_input_label");
+    this.ai_send_button          = document.getElementById("ai_send_button");
+    this.ai_clear_button         = document.getElementById("ai_clear_button");
+    this.ai_response_header      = document.getElementById("ai_response_header");
+    this.ai_response_placeholder = document.getElementById("ai_response_placeholder");
+
+    // Login page
+    this.login_title           = document.getElementById("login_title");
+    this.login_header          = document.getElementById("login_header");
+    this.login_subtitle        = document.getElementById("login_subtitle");
+    this.login_email_label     = document.getElementById("login_email_label");
+    this.login_password_label  = document.getElementById("login_password_label");
+    this.login_submit_button   = document.getElementById("login_submit_button");
+    this.login_register_prompt = document.getElementById("login_register_prompt");
+    this.login_register_link   = document.getElementById("login_register_link");
+
+    // Registration page
+    this.register_title                  = document.getElementById("register_title");
+    this.register_header                 = document.getElementById("register_header");
+    this.register_subtitle               = document.getElementById("register_subtitle");
+    this.register_username_label         = document.getElementById("register_username_label");
+    this.register_email_label            = document.getElementById("register_email_label");
+    this.register_password_label         = document.getElementById("register_password_label");
+    this.register_confirm_password_label = document.getElementById("register_confirm_password_label");
+    this.register_submit_button          = document.getElementById("register_submit_button");
+    this.register_login_prompt           = document.getElementById("register_login_prompt");
+    this.register_login_link             = document.getElementById("register_login_link");
+
+    // User page
+    this.user_title                     = document.getElementById("user_title");
+    this.user_logo                      = document.getElementById("user_logo");
+    this.user_logout                    = document.getElementById("user_logout");
+    this.user_welcome_message           = document.getElementById("user_welcome_message");
+    this.user_welcome_subtitle          = document.getElementById("user_welcome_subtitle");
+    this.user_remaining_api_calls_label = document.getElementById("user_remaining_api_calls_label");
+    this.user_total_requests_label      = document.getElementById("user_total_requests_label");
+    this.user_ai_service_access         = document.getElementById("user_ai_service_access");
+    this.user_ai_service_description    = document.getElementById("user_ai_service_description");
+    this.user_ai_button                 = document.getElementById("user_ai_button");
+    this.user_collection                = document.getElementById("user_collection");
+    this.user_collection_description    = document.getElementById("user_collection_description");
+    this.user_collection_button         = document.getElementById("user_collection_button");
+    
+    
+    this.setTexts();
+  }
+
+  /**
+   * Set texts for various UI elements based on language files.
+   */
+  setTexts() {
+    
+    // Admin page
+    if (typeof ADMIN_LANG !== "undefined") {
+      this.admin_title.textContent               = ADMIN_LANG.ADMIN_TITLE;
+      this.admin_logo.textContent                = ADMIN_LANG.ADMIN_LOGO;
+      this.admin_logout.textContent              = ADMIN_LANG.ADMIN_LOGOUT;
+      this.admin_header.textContent              = ADMIN_LANG.ADMIN_HEADER;
+      this.admin_purpose.textContent             = ADMIN_LANG.ADMIN_PURPOSE;
+      this.admin_total_users.textContent         = ADMIN_LANG.ADMIN_TOTAL_USERS;
+      this.admin_total_api_calls.textContent     = ADMIN_LANG.ADMIN_TOTAL_API_CALLS;
+      this.admin_user_statistics.textContent     = ADMIN_LANG.ADMIN_USER_STATISTICS;
+      this.admin_user_username.textContent       = ADMIN_LANG.ADMIN_USER_USERNAME;
+      this.admin_user_email.textContent          = ADMIN_LANG.ADMIN_USER_EMAIL;
+      this.admin_user_api_calls_used.textContent = ADMIN_LANG.ADMIN_USER_API_CALLS_USED;
+      this.admin_user_remaining.textContent      = ADMIN_LANG.ADMIN_USER_REMAINING;
+    }
+
+    // AI page
+    if (typeof AI_LANG !== "undefined") {
+      this.ai_title.textContent                = AI_LANG.AI_TITLE;
+      this.ai_logo.textContent                 = AI_LANG.AI_LOGO;
+      this.ai_back_button.textContent          = AI_LANG.AI_BACK_BUTTON;
+      this.ai_header.textContent               = AI_LANG.AI_HEADER;
+      this.ai_description.textContent          = AI_LANG.AI_DESCRIPTION;
+      this.ai_input_label.textContent          = AI_LANG.AI_INPUT_LABEL;
+      this.ai_send_button.textContent          = AI_LANG.AI_SEND_BUTTON;
+      this.ai_clear_button.textContent         = AI_LANG.AI_CLEAR_BUTTON;
+      this.ai_response_header.textContent      = AI_LANG.AI_RESPONSE_HEADER;
+      this.ai_response_placeholder.textContent = AI_LANG.AI_RESPONSE_PLACEHOLDER;
+    }
+
+    // Login page
+    if (typeof LOGIN_LANG !== "undefined") {
+        this.login_title.textContent           = LOGIN_LANG.LOGIN_TITLE;
+        this.login_header.textContent          = LOGIN_LANG.LOGIN_HEADER;
+        this.login_subtitle.textContent        = LOGIN_LANG.LOGIN_SUBTITLE;
+        this.login_email_label.textContent     = LOGIN_LANG.LOGIN_EMAIL_LABEL;
+        this.login_password_label.textContent  = LOGIN_LANG.LOGIN_PASSWORD_LABEL;
+        this.login_submit_button.textContent   = LOGIN_LANG.LOGIN_SUBMIT_BUTTON;
+        this.login_register_prompt.textContent = LOGIN_LANG.LOGIN_REGISTER_PROMPT;
+        this.login_register_link.textContent   = LOGIN_LANG.LOGIN_REGISTER_LINK;
+    }
+
+    // Registration page
+    if (typeof REGISTER_LANG !== "undefined") {
+        this.register_title.textContent                  = REGISTER_LANG.REGISTER_TITLE;
+        this.register_header.textContent                 = REGISTER_LANG.REGISTER_HEADER;
+        this.register_subtitle.textContent               = REGISTER_LANG.REGISTER_SUBTITLE;
+        this.register_username_label.textContent         = REGISTER_LANG.REGISTER_USERNAME_LABEL;
+        this.register_email_label.textContent            = REGISTER_LANG.REGISTER_EMAIL_LABEL;
+        this.register_password_label.textContent         = REGISTER_LANG.REGISTER_PASSWORD_LABEL;
+        this.register_confirm_password_label.textContent = REGISTER_LANG.REGISTER_CONFIRM_PASSWORD_LABEL;
+        this.register_submit_button.textContent          = REGISTER_LANG.REGISTER_SUBMIT_BUTTON;
+        this.register_login_prompt.textContent           = REGISTER_LANG.REGISTER_LOGIN_PROMPT;
+        this.register_login_link.textContent             = REGISTER_LANG.REGISTER_LOGIN_LINK;
+    }
+
+    // User page
+    if (typeof USER_LANG !== "undefined") {
+        this.user_title.textContent                     = USER_LANG.USER_TITLE;
+        this.user_logo.textContent                      = USER_LANG.USER_LOGO;
+        this.user_logout.textContent                    = USER_LANG.USER_LOGOUT;
+        this.user_welcome_message.textContent           = USER_LANG.USER_WELCOME_MESSAGE.replace("{username}", "User");
+        this.user_welcome_subtitle.textContent          = USER_LANG.USER_WELCOME_SUBTITLE;
+        this.user_remaining_api_calls_label.textContent = USER_LANG.USER_REMAINING_API_CALLS_LABEL;
+        this.user_total_requests_label.textContent      = USER_LANG.USER_TOTAL_REQUESTS_LABEL;
+        this.user_ai_service_access.textContent         = USER_LANG.USER_AI_SERVICE_ACCESS;
+        this.user_ai_service_description.textContent    = USER_LANG.USER_AI_SERVICE_DESCRIPTION;
+        this.user_ai_button.textContent                 = USER_LANG.USER_AI_BUTTON;
+        this.user_collection.textContent                = USER_LANG.USER_COLLECTION;
+        this.user_collection_description.textContent    = USER_LANG.USER_COLLECTION_DESCRIPTION;
+        this.user_collection_button.textContent         = USER_LANG.USER_COLLECTION_BUTTON;
+      }
+  }
+
+  /**
+   * Clear the message display.
+   */
+  clearMessage() {
+
+  }
+}
+
+// Initialize UIMessage class
+const uiMessage = new UIMessage();

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="ai_title"></title>
+  <link rel="stylesheet" href="../src/css/ai.css">
+</head>
+
+<body>
+  <nav class="navbar">
+    <h2 id="ai_logo"></h2>
+    <button class="back-btn" onclick="goBack()" id="ai_back_button"></button>
+  </nav>
+
+  <div class="container">
+    <div class="service-card">
+      <h1 id="ai_header"></h1>
+      <p id="ai_description"></p>
+
+      <div class="input-section">
+        <label for="userInput" id="ai_input_label"></label>
+        <textarea id="userInput" placeholder="Type your message here"></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="submit-btn" id="ai_send_button" onclick="submitRequest()"></button>
+        <button class="clear-btn" id="ai_clear_button" onclick="clearAll()"></button>
+      </div>
+
+      <div class="output-section">
+        <h3 id="ai_response_header"></h3>
+        <div class="output-box empty" id="ai_response_placeholder"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript files -->
+  <script src="../lang/en/ai-lang.js"></script>
+  <script src="../src/js/ui-message.js"></script>
+  <script src="../src/js/ai.js"></script>
+</body>
+
+</html>
