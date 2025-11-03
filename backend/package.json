@@ -1,0 +1,18 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "src/server/app.js",
+    "scripts": {
+        "start": "node src/server/app.js"
+    },
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "dotenv": "^16.4.5",
+        "jsonwebtoken": "^9.0.2",
+        "mysql2": "^3.11.0"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}
