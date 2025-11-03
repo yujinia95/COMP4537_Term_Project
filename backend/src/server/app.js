@@ -117,6 +117,20 @@ class Server {
     }
 
 
+    if (request.method === "POST" && pathname === "/api/auth/add"){
+
+      const user = this.controller.getJwtPayloadFromRequestHeader(request);
+
+      if (!user) {
+        response.writeHead(401, { "Content-Type": "application/json" });
+        return response.end(JSON.stringify({ message: "Unauthorized" }));
+      }
+
+      return this.controller.addApiUsage(request, response, user);
+
+    }
+
+
 
     // Get admin dashboard
     if (request.method === "GET" && pathname === "/api/auth/admin-dashboard") {

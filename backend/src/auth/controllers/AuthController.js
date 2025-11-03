@@ -6,6 +6,7 @@
  */
 
 import { GetAllUsersService }     from "../services/GetAllUsersService.js";
+import { AddApiCallService }      from "../services/AddApiCallService.js";
 import { LoginService }           from "../services/LoginService.js";
 import { SignupService }          from "../services/SignupService.js";
 import { UtilFunctionz }          from "../../utils/functionz.js";
@@ -15,10 +16,11 @@ export class AuthController {
 
     // Constructor
     constructor() {
-        this.signupService = new SignupService();
-        this.loginService  = new LoginService();
+        this.signupService      = new SignupService();
+        this.loginService       = new LoginService();
         this.getAllUsersService = new GetAllUsersService();
-        this.jwtSecret     = process.env.JWT_SECRET;
+        this.addApiCall         = new AddApiCallService()
+        this.jwtSecret          = process.env.JWT_SECRET;
     }
 
     /**
@@ -261,6 +263,32 @@ export class AuthController {
         const result = await this.getAllUsersService.getAllUsers();
 
         return this.#sendJson(res, 200, { result });
+    }
+
+
+    addApiUsage = async (req, res, user) => {
+
+        if (!user) {
+            this.#sendJson(res, 401, { error: "Unauthorized" });
+            return null;
+        }
+
+        const data = this.AddApiCallService(user.email);
+
+        try{
+            const result = await this.addApiCall.AddApiCallService({ email: user.email });
+
+            return this.#sendJson(res, 200, { success: true, affectedRows: result.affectedRows });
+        } catch (error) {
+            if (error.message && error.message.startsWith("NO USER WITH THE EMAIL")) {
+                return this.#sendJson(res, 404, { error: "User not found." });
+            }
+        }
+
+
+        return this.#sendJson(res, 500, { error: "Internal server error." });
+
+
     }
 
 
