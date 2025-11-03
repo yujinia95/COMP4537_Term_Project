@@ -5,6 +5,7 @@
  * @description Authentication controller for handling signup and login.
  */
 
+import { GetAllUsersService }     from "../services/GetAllUsersService.js";
 import { LoginService }           from "../services/LoginService.js";
 import { SignupService }          from "../services/SignupService.js";
 import { UtilFunctionz }          from "../../utils/functionz.js";
@@ -16,6 +17,7 @@ export class AuthController {
     constructor() {
         this.signupService = new SignupService();
         this.loginService  = new LoginService();
+        this.getAllUsersService = new GetAllUsersService();
         this.jwtSecret     = process.env.JWT_SECRET;
     }
 
@@ -240,4 +242,27 @@ export class AuthController {
         }
         return user;
     }
+
+
+    getAllUsers = async (req, res) => {
+        const user = this.getJwtPayloadFromRequestHeader(req);
+
+        if (!user) {
+            this.#sendJson(res, 401, { error: "Unauthorized" });
+            return null;
+        }
+
+        // If user is not admin BYEEEE
+        if (user.role !== "admin") {
+            this.#sendJson(res, 403, { error: "Forbidden: Admins only" });
+            return null;
+        }
+
+        const result = await this.getAllUsersService.getAllUsers();
+
+        return this.#sendJson(res, 200, { result });
+    }
+
+
+
 }
