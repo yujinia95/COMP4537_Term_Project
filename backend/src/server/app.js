@@ -101,6 +101,23 @@ class Server {
       return this.controller.getCurrentUser(request, response, user);
     }
 
+
+    if (request.method === "GET" && pathname === "/api/auth/users"){
+        // If not admin or unauthorized BYEEEE
+        if (!adminUser) {
+            return;
+        }
+
+        const data = this.controller.getAllUsers(request, response);
+
+        response.writeHead(200, { "Content-Type": "application/json" });
+        return response.end(JSON.stringify(data));
+
+
+    }
+
+
+
     // Get admin dashboard
     if (request.method === "GET" && pathname === "/api/auth/admin-dashboard") {
         const adminUser = this.controller.getAdmin(request, response);
