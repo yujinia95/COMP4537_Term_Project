@@ -5,21 +5,23 @@
  * @description Main entry point for the backend server.
  */
 
-import http               from "http";
-import { URL }            from "url";
+import http from "http";
+import { URL } from "url";
 import { AuthController } from "../auth/controllers/AuthController.js";
-import dotenv             from "dotenv";
+import { NatureDiscoveryController } from "../nature/controllers/NatureDiscoveryController.js";
+import dotenv from "dotenv";
 dotenv.config();
 
-const authController = new AuthController();
-const PORT           = process.env.PORT;
+const authController            = new AuthController();
+const natureDiscoveryController = new NatureDiscoveryController();
+const PORT = process.env.PORT;
 
 class Server {
 
   // Constructor
   constructor(controller) {
     this.controller = controller;
-    this.server     = http.createServer(this.#handleRequest.bind(this)); // Why bind(this)? To ensure the correct 'this' context
+    this.server = http.createServer(this.#handleRequest.bind(this)); // Why bind(this)? To ensure the correct 'this' context
   }
 
   /**
@@ -29,7 +31,10 @@ class Server {
    */
   #setCorsHeaders(response) {
     response.setHeader("Access-Control-Allow-Origin", "*");
-    response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    response.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
     response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   }
 
@@ -61,7 +66,6 @@ class Server {
    * @param {*} response - HTTP response object.
    */
   async #handleRequest(request, response) {
-
     this.#setCorsHeaders(response);
 
     if (request.method === "OPTIONS") {
@@ -70,14 +74,16 @@ class Server {
 
     const requestUrl = new URL(request.url, "http://localhost"); //! Need to be updated for production
     const pathname = requestUrl.pathname;
-    
+
     // Server health check
-     if (request.method === "GET" && pathname === "/") {
+    if (request.method === "GET" && pathname === "/") {
       response.writeHead(200, { "Content-Type": "text/html; charset=UTF-8" });
-      response.end("<h1>SERVER IS RUNNING!!!! PLEASE RUN WITHOUT ANY PROBLEMS</h1>");
+      response.end(
+        "<h1>SERVER IS RUNNING!!!! PLEASE RUN WITHOUT ANY PROBLEMS</h1>"
+      );
       return;
-     }
-    
+    }
+
     // Post for signup
     if (request.method === "POST" && pathname === "/api/auth/signup") {
       return this.controller.signup(request, response);
@@ -101,54 +107,76 @@ class Server {
       return this.controller.getCurrentUser(request, response, user);
     }
 
+    // Get all users (admin only)
+    if (request.method === "GET" && pathname === "/api/auth/users") {
 
-    if (request.method === "GET" && pathname === "/api/auth/users"){
-        // If not admin or unauthorized BYEEEE
-        if (!adminUser) {
-            return;
-        }
+      const adminUser = this.controller.getAdmin(request, response);
 
-        const data = this.controller.getAllUsers(request, response);
-
-        response.writeHead(200, { "Content-Type": "application/json" });
-        return response.end(JSON.stringify(data));
-
-
-    }
-
-
-    if (request.method === "POST" && pathname === "/api/auth/add"){
-
-      const user = this.controller.getJwtPayloadFromRequestHeader(request);
-
-      if (!user) {
-        response.writeHead(401, { "Content-Type": "application/json" });
-        return response.end(JSON.stringify({ message: "Unauthorized" }));
+      // If not admin or unauthorized BYEEEE
+      if (!adminUser) {
+        return;
       }
 
-      return this.controller.addApiUsage(request, response, user);
+      const data = this.controller.getAllUsers(request, response);
 
+      response.writeHead(200, { "Content-Type": "application/json" });
+      return response.end(JSON.stringify(data));
     }
 
+    // Add API usage
+    if (request.method === "POST" && pathname === "/api/auth/add") {
+      return this.controller.addApiUsage(request, response);
+    }
+
+    if (request.method === "GET" && pathname.startsWith("/api/auth/get")){
+      return this.controller.getApiUsage(request, response);
+    }
 
 
     // Get admin dashboard
     if (request.method === "GET" && pathname === "/api/auth/admin-dashboard") {
-        const adminUser = this.controller.getAdmin(request, response);
+      const adminUser = this.controller.getAdmin(request, response);
 
-        // If not admin or unauthorized BYEEEE
-        if (!adminUser) {
-            return;
+      // If not admin or unauthorized BYEEEE
+      if (!adminUser) {
+        return;
+      }
+
+      const payload = {
+        message: `Welcome to the admin dashboard!`,
+        user: {
+          id: adminUser.sub,
+          username: adminUser.username,
+          email: adminUser.email,
+          role: adminUser.role,
+        },
+      };
+
+      response.writeHead(200, { "Content-Type": "application/json" });
+      return response.end(JSON.stringify(payload));
+    }
+
+    // Add nature discovery entry
+    if (request.method === "POST" && pathname === "/api/ai/item") {
+
+      return natureDiscoveryController.addDiscovery(request, response);
+    }
+
+    // Get nature discovery summary (count of flowers, trees, rocks from database)
+    if (request.method === "GET" && pathname === "/api/ai/naturedex") {
+
+      const user = this.controller.getJwtPayloadFromRequestHeader(request);
+
+        if (!user) {
+          response.writeHead(401, { "Content-Type": "application/json" });
+          return response.end(JSON.stringify({ message: "Unauthorized" }));
         }
 
-        const payload = {
-            message: `Welcome to the admin dashboard!`,
-            user   : { id: adminUser.sub, username: adminUser.username, email: adminUser.email, role: adminUser.role }
-        };
 
-        response.writeHead(200, { "Content-Type": "application/json" });
-        return response.end(JSON.stringify(payload));
+      return natureDiscoveryController.getDiscoverySummary(request, response, user);
     }
+
+
 
     // If no route matched, return 404
     return this.#sendPageNotFound(response);

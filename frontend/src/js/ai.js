@@ -5,6 +5,8 @@
  * @description In this file, we define the AIPage class that handles interactions with the AI, including submitting user input, displaying responses, and managing UI elements.
  */
 
+import { BACKEND_URL } from "../../lang/en/constants.js";
+
 class AIPage {
     constructor() {
         // Cache DOM elements
@@ -22,9 +24,18 @@ class AIPage {
         window.addEventListener('DOMContentLoaded', () => this.init());
     }
 
-    init() {
-        // Setup Enter key submission
-        // this.inputEl.addEventListener('keydown', this.handleKeyPress); // Commented out: no textarea to listen to
+    async init() 
+    {
+        try
+        {
+            const ai_send_button = document.getElementById('ai_send_button');
+            if (ai_send_button) ai_send_button.addEventListener('click', this.submitRequest);
+
+        }catch(error)
+        {
+            console.error("Error initializing AIPage:", error);
+        }
+       
     }
 
     async submitRequest() {
@@ -37,11 +48,11 @@ class AIPage {
             return;
         }
 
-            // Show preview
+        // Show preview
         const preview = document.getElementById('preview');
         preview.src = URL.createObjectURL(file);
         preview.style.display = 'block';
-    
+
 
         formData.append('file', file);
 
@@ -72,10 +83,71 @@ class AIPage {
 
             const response = await fetch('https://blip-backend-5svjo.ondigitalocean.app/describe', {
                 method: 'POST',
-                body: formData
+                body: formData,
             });
 
             const data = await response.json();
+
+            try{
+
+                const user = JSON.parse(localStorage.getItem("user"));
+                const userID = user?.sub;
+
+                await fetch(`${BACKEND_URL}/api/ai/item`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        // "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        userId: userID,
+                        category: data.category,
+                        label: data.label
+                    })
+                });
+
+            } catch (err){
+                console.log("Sending AI data to database", err);
+            }
+
+
+
+            try {
+
+                // const token = localStorage.getItem('token');
+
+                const user = JSON.parse(localStorage.getItem("user"));
+                const userEmail = user?.email;
+
+                const res = await fetch(`${BACKEND_URL}/api/auth/add`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email: userEmail })
+                });
+
+                const payload = await res.json();
+
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        console.warn("addApiUsage: Unauthorized", payload);
+                    } else if (res.status === 404) {
+                        console.warn("addApiUsage: User not found", payload);
+                    } else {
+                        console.warn("addApiUsage failed:", res.status, payload);
+                    }
+                } else {
+                    console.log("addApiUsage success:", payload);
+                }
+
+
+            } catch (err) {
+                // handle network or parsing errors
+                console.error("addApiUsage error:", err);
+            }
+
+
 
             // Simulate API delay
             // await new Promise(resolve => setTimeout(resolve, 2000));
@@ -84,7 +156,7 @@ class AIPage {
             this.outputEl.textContent =
                 ` ${data.description}`;
 
-                
+
         } catch (error) {
             this.outputEl.className = 'output-box';
             this.outputEl.textContent = 'Error: ' + error.message;

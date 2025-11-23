@@ -1,5 +1,5 @@
 /**
- * @file AddApiCallService.js
+ * @file GetApiCallService.js
  * @author Yujin Jeong, Evan Vink, Brian Diep
  * @version 1.0
  * @description Login service for user authentication.
@@ -12,7 +12,8 @@ import { LOGIN_SERVICE_CONSTS } from "../../utils/consts.js";
 
 
 
-export class AddApiCallService {
+
+export class GetApiCallService {
     constructor(secret = process.env.JWT_SECRET, expiresIn = process.env.JWT_EXPIRES_IN || LOGIN_SERVICE_CONSTS.JWT_EXPIRES_IN) {
 
         this.db         = db;
@@ -20,24 +21,23 @@ export class AddApiCallService {
         this.expiresIn  = expiresIn;
     }
 
-    async AddApiCallService({ email }){
-
-        if (!email) {
-            throw new Error("email is required");
+    async getApiCallCount({ userId }) {
+        if (!userId) {
+            throw new Error("userId is required");
         }
 
-        const result = await this.db.query(`
-        UPDATE users
-        SET api_usage_count = api_usage_count + 1
-        WHERE email = ?    
-        `, [email]);
+        const rows = await this.db.query(`
+        SELECT api_usage_count
+        FROM users
+        WHERE id = ?
+        `, [userId]);
 
-        // For UPDATE queries mysql2 returns an object with affectedRows
-        if (!result || result.affectedRows === 0) {
-            throw new Error(`NO USER WITH THE EMAIL ${email}`);
-        }
+    // rows = [] means no user found
+    if (!rows || rows.length === 0) {
+        throw new Error(`No user found with id: ${userId}`);
+    }
 
-        return { affectedRows: result.affectedRows };
+    return { amount: rows[0].api_usage_count };
     }
 
 

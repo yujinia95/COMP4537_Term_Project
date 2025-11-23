@@ -12,7 +12,14 @@
   <!-- Top Navigation Bar -->
   <nav class="navbar">
     <h2 id="admin-logo"></h2>
-    <button class="logout-btn" id="admin-logout" onclick="logout()"></button>
+
+    <div id="nav-links">
+      <a href="ai.html">AI Page</a>
+      <a href="user.html">User Page</a>
+    </div>
+
+
+    <button class="logout-btn" id="admin-logout"></button>
   </nav>
 
 
@@ -52,19 +59,26 @@
           </tr>
         </thead>
         <!-- User info rows -->
-        <tbody id="usersTableBody">
-          <!--! Users will be populated here -->
+        <!--<tbody id="usersTableBody">
+         Users will be populated here
         </tbody>
+        -->
       </table>
+
+      <div id="usersTableBody">
+
+      </div>
+
+
     </div>
 
 
   </div>
-  
+
   <!-- JavaScript files -->
   <script src="../lang/en/admin-lang.js"></script>
   <script src="../src/js/ui-message.js"></script>
-  <script src="../src/js/admin.js"></script>
+  <script type="module" src="../src/js/admin.js"></script>
 </body>
 
 </html>

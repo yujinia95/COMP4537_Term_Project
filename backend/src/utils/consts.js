@@ -32,3 +32,13 @@ export const AUTH_CONTROLLER_CONSTS = {
     TYPE_OF_AUTH_SCHEME   : "Bearer",
     CREDENTIAL_PART       : 1
 };
+
+// Nature Discovery Service Constants
+export const NATURE_DISCOVERY_SERVICE_CONSTS = {
+    ENSURE_USER_ROW         : "INSERT IGNORE INTO user_nature_inventory (user_id) VALUES (?)",
+    ADD_FLOWER              : "UPDATE user_nature_inventory SET flowers = JSON_ARRAY_APPEND(flowers, '$', ?) WHERE user_id = ? AND JSON_CONTAINS(flowers, JSON_QUOTE(?), '$') = 0",
+    ADD_TREE                : "UPDATE user_nature_inventory SET trees = JSON_ARRAY_APPEND(trees, '$', ?) WHERE user_id = ? AND JSON_CONTAINS(trees, JSON_QUOTE(?), '$') = 0",
+    ADD_ROCK                : "UPDATE user_nature_inventory SET rocks = JSON_ARRAY_APPEND(rocks, '$', ?) WHERE user_id = ? AND JSON_CONTAINS(rocks, JSON_QUOTE(?), '$') = 0",
+    GET_COUNTS_BY_USER_ID   : "SELECT flowers, trees, rocks FROM user_nature_inventory WHERE user_id = ?", 
+    MAX_LABELS_PER_CATEGORY : 5
+};

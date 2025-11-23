@@ -13,7 +13,9 @@
   <!-- Top Navigation Bar -->
   <nav class="navbar">
     <h2 id="user_logo"></h2>
-    <button class="logout-btn" id="user_logout" onclick="logout()"></button>
+    <div id="nav-link">
+    </div>
+    <button class="logout-btn" id="user_logout"></button>
   </nav>
 
   <div class="container">
@@ -29,22 +31,22 @@
       <!-- Remaining API Calls card-->
       <div class="stat-card">
         <div class="stat-label" id="user_remaining_api_calls_label"></div>
-        <div class="stat-value" id="apiCalls">1,000</div>
+        <div class="stat-value" id="apiCalls"></div>
       </div>
       <!-- Total API calls requests-->
       <div class="stat-card">
         <div class="stat-label" id="user_total_requests_label"></div>
-        <div class="stat-value" id="totalRequests">0</div>
+        <div class="stat-value" id="totalRequests"></div>
       </div>
     </div>
-    
+
     <!-- AI access & User ai response collection section -->
     <div class="action-card">
       <!-- AI service access -->
       <div>
         <h2 id="user_ai_service_access"></h2>
         <p id="user_ai_service_description"></p>
-        <button class="action-btn" id="user_ai_button" onclick="goToAIService()"></button>
+        <button class="action-btn" id="goToAIServiceBtn"></button>
       </div>
 
       <!-- User collection -->
@@ -61,7 +63,7 @@
   <!-- JavaScript files -->
   <script src="../lang/en/user-lang.js"></script>
   <script src="../src/js/ui-message.js"></script>
-  <script src="../src/js/user.js"></script>
+  <script type="module" src="../src/js/user.js"></script>
 </body>
 
 </html>

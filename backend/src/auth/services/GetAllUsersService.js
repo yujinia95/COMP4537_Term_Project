@@ -21,7 +21,7 @@ export class GetAllUsersService {
         this.expiresIn  = expiresIn;
     }
 
-    async getAllUsers(){
+    async GetAllUsers(){
 
         const rows = await this.db.query(
             "SELECT * FROM users"
