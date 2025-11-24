@@ -1,6 +1,6 @@
 /**
  * @file app.js
- * @author Yujin Jeong, Evan Vink, Brian Diep
+ * @author Yujin Jeong, Evan Vink, Brian Diep, ChatGPT, Claude
  * @version 1.0
  * @description Main entry point for the backend server.
  */
@@ -11,6 +11,13 @@ import { AuthController } from "../auth/controllers/AuthController.js";
 import { NatureDiscoveryController } from "../nature/controllers/NatureDiscoveryController.js";
 import dotenv from "dotenv";
 dotenv.config();
+
+import express from "express";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import { serverInfo } from "./swagger_server.js";
+
+
 
 const authController            = new AuthController();
 const natureDiscoveryController = new NatureDiscoveryController();
@@ -193,3 +200,20 @@ class Server {
 }
 
 new Server(authController).startServer();
+
+
+
+const app = express();
+
+const spec = swaggerJsdoc({
+  definition: serverInfo,
+  apis: [
+  "./auth/controllers/*.js",
+  "./nature/controllers/*.js"
+  ],
+});
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(spec));
+
+app.listen(3010, () => console.log("Swagger → http://localhost:3010/docs"));
+

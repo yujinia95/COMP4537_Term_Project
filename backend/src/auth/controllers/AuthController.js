@@ -1,6 +1,6 @@
 /**
  * @file AuthController.js
- * @author Yujin Jeong, Evan Vink, Brian Diep
+ * @author Yujin Jeong, Evan Vink, Brian Diep, ChatGPT, Claude
  * @version 1.0
  * @description Authentication controller for handling signup and login.
  */
@@ -11,6 +11,8 @@ import { SignupService } from "../services/SignupService.js";
 import { UtilFunctionz } from "../../utils/functionz.js";
 import { AUTH_CONTROLLER_CONSTS } from "../../utils/consts.js";
 import { GetApiCallService } from "../services/GetApiCallService.js";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export class AuthController {
   // Constructor
@@ -141,6 +143,26 @@ export class AuthController {
       return this.#sendJson(res, 400, { error: "Missing required fields." });
     }
 
+    // Username empty string check
+    if (typeof username !== "string" || !username.trim()) {
+      return this.#sendJson(res, 400, { error: "Username must be a non-empty string." });
+    }
+
+    // Email empty string check
+    if (typeof email !== "string" || !email.trim()) {
+      return this.#sendJson(res, 400, { error: "Email must be a non-empty string." });
+    }
+
+    // Check if password is a string
+    if (typeof password !== "string") {
+      return this.#sendJson(res, 400, { error: "Password must be a string." });
+    }
+
+    // Email format validation
+    if (!EMAIL_REGEX.test(email)) {
+      return this.#sendJson(res, 400, { error: "Invalid email format." });
+    }
+
     try {
       const newUser = await this.signupService.executeSignup({
         username,
@@ -179,25 +201,39 @@ export class AuthController {
       return this.#sendJson(res, 400, { error: "Missing required fields." });
     }
 
-    try {
-      const result = await this.loginService.executeLogin({ email, password });
+    // Type and non-empty string check for email and password
+    if (typeof email !== "string" || !email.trim()) {
+      return this.#sendJson(res, 400, { error: "Email must be a non-empty string." });
+    }
+    if (typeof password !== "string" || !password.trim()) {
+      return this.#sendJson(res, 400, { error: "Password must be a non-empty string." });
+    }
 
-      return this.#sendJson(res, 200, {
-        token: result.token,
-        user: result.user,
+    // Email format validation
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!EMAIL_REGEX.test(normalizedEmail)) {
+      return this.#sendJson(res, 400, { error: "Invalid email format." });
+    }
+
+    try {
+      const result = await this.loginService.executeLogin({
+        email: normalizedEmail,
+        password,
       });
+
+      return this.#sendJson(res, 200, { token: result.token, user: result.user });
     } catch (error) {
-      // If bad credentials return 401 Unauthorized
-      if (error.message === "BAD_CREDENTIALS") {
-        return this.#sendJson(res, 401, {
-          error: "Invalid email or password.",
-        });
+      console.error("Login error:", error);
+
+      //Wrong email OR wrong password get 401 error
+      if (error.message.startsWith("BAD_CREDENTIALS")) {
+        return this.#sendJson(res, 401, { error: "Invalid email or password." });
       }
 
-      // If server error return 500 Internal Server Error
-      return this.#sendJson(res, 500, { error: "Internal server error." });
+      //Everything else → real server problem
+      return this.#sendJson(res, 500, { error: "Login failed" });
     }
-  };
+};
 
   /**
    * Gets the current authenticated user.

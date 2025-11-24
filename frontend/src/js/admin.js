@@ -69,6 +69,9 @@ class Admin {
             headers: { 'Authorization': 'Bearer ' + token }
         });
 
+        
+
+
         const data = await response.json();
 
         this.userTableBody.innerHTML = JSON.stringify(data, null, 2);

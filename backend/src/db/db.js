@@ -1,6 +1,6 @@
 /**
  * @file db.js
- * @author Yujin Jeong, Evan Vink, Brian Diep
+ * @author Yujin Jeong, Evan Vink, Brian Diep, ChatGPT, Claude
  * @version 1.0
  * @description In this file, we define the Database class that is used to create a database connection pool.
  */

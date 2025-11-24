@@ -1,6 +1,6 @@
 /**
  * @file AddApiCallService.js
- * @author Yujin Jeong, Evan Vink, Brian Diep
+ * @author Yujin Jeong, Evan Vink, Brian Diep, ChatGPT, Claude
  * @version 1.0
  * @description Login service for user authentication.
  */

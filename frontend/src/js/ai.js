@@ -194,3 +194,4 @@ const aiPage = new AIPage();
 // <button id="submitBtn" onclick="aiPage.submitRequest()">Send Request</button>
 // <button onclick="aiPage.clearAll()">Clear</button>
 // <button onclick="aiPage.goBack()">Back</button>
+
